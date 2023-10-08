@@ -15,7 +15,9 @@ public abstract class DoctorTransitionListUpdater extends DoctorTransition {
     protected abstract void updateTransitions();
 
     void joinActionToTransitions(String userUUID) {
-        updatedTransition.forEach(transitionEntity -> joinActionTransition(createdAction, transitionEntity, userUUID, transitionEntity.getDoctorUUID()));
+        for (TransitionEntity transitionEntity : updatedTransition) {
+            joinActionTransition(createdAction, transitionEntity, userUUID, transitionEntity.getDoctorUUID());
+        }
     }
 
     public void execute(String userUUID) {

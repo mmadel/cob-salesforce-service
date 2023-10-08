@@ -1,4 +1,4 @@
-package com.cob.salesforce.services.workflow;
+package com.cob.salesforce.services.transition;
 
 import com.cob.salesforce.BeanFactory;
 import com.cob.salesforce.entities.ActionEntity;
@@ -6,8 +6,8 @@ import com.cob.salesforce.entities.ActionTransitionEntity;
 import com.cob.salesforce.entities.TransitionEntity;
 import com.cob.salesforce.repositories.ActionTransitionRepository;
 
-public abstract class DoctorState {
-    void joinActionTransition(ActionEntity action, TransitionEntity transition,
+public abstract class DoctorTransition {
+    protected void joinActionTransition(ActionEntity action, TransitionEntity transition,
                               String userUUID, String doctorUUID) {
         ActionTransitionRepository actionTransitionRepository = BeanFactory.getBean(ActionTransitionRepository.class);
         ActionTransitionEntity actionTransition = new ActionTransitionEntity();

@@ -1,9 +1,9 @@
 package com.cob.salesforce.controllers;
 
-import com.cob.salesforce.services.workflow.FirstTimeService;
-import com.cob.salesforce.services.workflow.FollowupService;
-import com.cob.salesforce.services.workflow.IntakeService;
-import com.cob.salesforce.services.workflow.SchedulerService;
+import com.cob.salesforce.services.transition.impl.FirstTimeTransitionService;
+import com.cob.salesforce.services.transition.impl.FollowupTransitionService;
+import com.cob.salesforce.services.transition.impl.IntakeTransitionService;
+import com.cob.salesforce.services.transition.impl.SchedulerTransitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,36 +14,36 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/test")
 public class TestController {
     @Autowired
-    IntakeService intakeService;
+    IntakeTransitionService intakeTransitionService;
     @Autowired
-    FirstTimeService firstTimeService;
+    FirstTimeTransitionService firstTimeTransitionService;
     @Autowired
-    FollowupService followupService;
+    FollowupTransitionService followupTransitionService;
 
     @Autowired
-    SchedulerService schedulerService;
+    SchedulerTransitionService schedulerTransitionService;
 
     @ResponseBody
     @GetMapping("/intake")
     public void intake() {
-        intakeService.execute("dadc723e-6547-11ee-8c99-0242ac120002", "1e2e9058-6548-11ee-8c99-0242ac120002");
+        intakeTransitionService.execute("dadc723e-6547-11ee-8c99-0242ac120002", "1e2e9058-6548-11ee-8c99-0242ac120002");
     }
 
     @ResponseBody
     @GetMapping("/first/time")
     public void firstTime() {
-        firstTimeService.execute("dadc723e-6547-11ee-8c99-0242ac120002", "1e2e9058-6548-11ee-8c99-0242ac120002");
+        firstTimeTransitionService.execute("dadc723e-6547-11ee-8c99-0242ac120002", "1e2e9058-6548-11ee-8c99-0242ac120002");
     }
 
     @ResponseBody
     @GetMapping("/followup")
     public void followup() {
-        followupService.execute("dadc723e-6547-11ee-8c99-0242ac120002", "1e2e9058-6548-11ee-8c99-0242ac120002");
+        followupTransitionService.execute("dadc723e-6547-11ee-8c99-0242ac120002", "1e2e9058-6548-11ee-8c99-0242ac120002");
     }
 
     @ResponseBody
     @GetMapping("/scheduler")
     public void scheduler() {
-        schedulerService.execute("5d7631d2-6604-11ee-8c99-0242ac120002");
+        schedulerTransitionService.execute("5d7631d2-6604-11ee-8c99-0242ac120002");
     }
 }

@@ -1,4 +1,4 @@
-package com.cob.salesforce.services.workflow;
+package com.cob.salesforce.services.transition.impl;
 
 import com.cob.salesforce.entities.ActionEntity;
 import com.cob.salesforce.entities.TransitionEntity;
@@ -7,11 +7,12 @@ import com.cob.salesforce.enums.State;
 import com.cob.salesforce.repositories.ActionRepository;
 import com.cob.salesforce.repositories.ActionTransitionRepository;
 import com.cob.salesforce.repositories.TransitionRepository;
+import com.cob.salesforce.services.transition.DoctorTransitionUpdater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FollowupService extends DoctorStateUpdater {
+public class FollowupTransitionService extends DoctorTransitionUpdater {
     @Autowired
     ActionRepository actionRepository;
     @Autowired
@@ -20,14 +21,14 @@ public class FollowupService extends DoctorStateUpdater {
     TransitionRepository transitionRepository;
 
     @Override
-    void createAction() {
+    protected void createAction() {
         ActionEntity entity = new ActionEntity();
         entity.setActionType(ActionType.VISIT_FOLLOW_UP);
         createdAction = actionRepository.save(entity);
     }
 
     @Override
-    void updateTransition(String doctorUUID) {
+    protected void updateTransition(String doctorUUID) {
         TransitionEntity potentialTransitionByDoctor = actionTransitionRepository.findPotentialTransitionByDoctor(doctorUUID);
         potentialTransitionByDoctor.setState(State.COMPLETE);
         potentialTransitionByDoctor.setNextFollowupDate(1698789600000L);

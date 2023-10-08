@@ -1,15 +1,15 @@
-package com.cob.salesforce.services.workflow;
+package com.cob.salesforce.services.transition;
 
 import com.cob.salesforce.entities.ActionEntity;
 import com.cob.salesforce.entities.TransitionEntity;
 
-public abstract class DoctorStateUpdater extends DoctorState {
-    ActionEntity createdAction;
-    TransitionEntity updatedTransition;
+public abstract class DoctorTransitionUpdater extends DoctorTransition {
+    protected ActionEntity createdAction;
+    protected TransitionEntity updatedTransition;
 
-    abstract void createAction();
+    protected abstract void createAction();
 
-    abstract void updateTransition(String doctorUUID);
+    protected abstract void updateTransition(String doctorUUID);
 
     public void execute(String userUUID, String doctorUUID) {
         createAction();

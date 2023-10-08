@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "action")
@@ -20,6 +21,13 @@ public class ActionEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "action_type")
     private ActionType actionType;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
+    @OneToMany(mappedBy = "action")
+    private Set<ActionTransitionEntity> actionTransition;
     private Long createdAt;
 
     @PrePersist

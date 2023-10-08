@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "transition")
@@ -21,6 +22,12 @@ public class TransitionEntity {
     @Column(name = "state")
     private State state;
 
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private DoctorEntity doctor;
+
+    @OneToMany(mappedBy = "transition")
+    private Set<ActionTransitionEntity> actionTransition;
     Long createdAt;
 
     @PrePersist

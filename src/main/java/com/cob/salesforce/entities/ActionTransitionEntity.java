@@ -5,23 +5,28 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
-@Table(name = "doctor")
-@Getter
+@Table(name = "action_transition")
 @Setter
-public class DoctorEntity {
+@Getter
+public class ActionTransitionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @ManyToOne
+    @JoinColumn(name = "action_id")
+    private ActionEntity action;
+    @ManyToOne
+    @JoinColumn(name = "transition_id")
+    private TransitionEntity transition;
 
-    private String name;
-    private String npi;
+    private String uuidUser;
 
-    private String uuid;
+    private String uuidDoctor;
     private Long createdAt;
+
     @PrePersist
     private void beforeSaving() {
         createdAt = new Date().getTime();

@@ -19,10 +19,6 @@ public class UserEntity {
 
     private String uuid;
     private String name;
-
-    @OneToMany
-    @JoinColumn(name="user_id")
-    private Set<ActionEntity> actions;
     private Long createdAt;
 
     @PrePersist

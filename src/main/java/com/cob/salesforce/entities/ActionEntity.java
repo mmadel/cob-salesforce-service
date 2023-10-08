@@ -22,9 +22,6 @@ public class ActionEntity {
     @Column(name = "action_type")
     private ActionType actionType;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
 
     @OneToMany(mappedBy = "action")
     private Set<ActionTransitionEntity> actionTransition;

@@ -16,8 +16,6 @@ public class IntakeService extends DoctorStateCreator {
     ActionRepository actionRepository;
     @Autowired
     TransitionRepository transitionRepository;
-    @Autowired
-    ActionTransitionRepository actionTransitionRepository;
 
     @Override
     void createAction() {
@@ -27,9 +25,10 @@ public class IntakeService extends DoctorStateCreator {
     }
 
     @Override
-    void createTransition() {
+    void createTransition(String doctorUUID) {
         TransitionEntity entity = new TransitionEntity();
         entity.setState(State.POTENTIAL);
+        entity.setDoctorUUID(doctorUUID);
         createdTransition = transitionRepository.save(entity);
     }
 }

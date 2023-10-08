@@ -24,6 +24,12 @@ public class TransitionEntity {
 
     @OneToMany(mappedBy = "transition")
     private Set<ActionTransitionEntity> actionTransition;
+
+    @Column(name = "next_follow_up_date")
+    Long nextFollowupDate;
+
+    @Column
+    private String doctorUUID;
     Long createdAt;
 
     @PrePersist

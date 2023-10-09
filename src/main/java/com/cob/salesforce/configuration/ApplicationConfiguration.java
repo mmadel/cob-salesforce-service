@@ -1,6 +1,7 @@
 package com.cob.salesforce.configuration;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,5 +13,9 @@ public class ApplicationConfiguration {
         modelMapper.getConfiguration().setAmbiguityIgnored(true);
         return modelMapper;
 
+    }
+    @Bean
+    public Jackson2JsonMessageConverter converter() {
+        return new Jackson2JsonMessageConverter();
     }
 }

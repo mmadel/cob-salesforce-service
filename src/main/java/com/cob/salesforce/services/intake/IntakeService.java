@@ -2,10 +2,11 @@ package com.cob.salesforce.services.intake;
 
 import com.cob.salesforce.entities.DoctorEntity;
 import com.cob.salesforce.models.DoctorModel;
-import com.cob.salesforce.models.intake.PotentialDoctorMessage;
+import com.cob.salesforce.models.intake.PotentialDoctor;
 import com.cob.salesforce.repositories.DoctorRepository;
 import com.cob.salesforce.services.transition.impl.IntakeTransitionService;
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +22,12 @@ public class IntakeService {
     @Autowired
     IntakeTransitionService intakeTransitionService;
 
-    private void consumeIntakeMessage() {
-        //message from RabbitMQ
-        PotentialDoctorMessage tmp = new PotentialDoctorMessage();
-        tmp.setName("ahmed");
-        tmp.setNpi("304944");
+    @RabbitListener(queues = "CLINIC1_POTENTIAL_Q")
+    private void consumeIntakeMessage(PotentialDoctor potentialDoctor) {
+
         DoctorModel model = DoctorModel.builder()
-                .name(tmp.getName())
-                .npi(tmp.getNpi())
+                .name(potentialDoctor.getName())
+                .npi(potentialDoctor.getNpi())
                 .uuid(UUID.randomUUID().toString())
                 .build();
         createDoctor(model);

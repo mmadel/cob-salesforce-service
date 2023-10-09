@@ -17,12 +17,12 @@ public class FollowupController {
     @PostMapping("/first")
     @ResponseBody
     public ResponseEntity createFirstFollowup(@RequestBody FollowupModel model) {
-        return new ResponseEntity(followupService.createFollowup(model), HttpStatus.OK);
+        return new ResponseEntity(followupService.createFirstFollowup(model), HttpStatus.OK);
     }
 
     @PostMapping("/next")
     @ResponseBody
-    public void createFollowup() {
-
+    public ResponseEntity createNextFollowup(@RequestBody FollowupModel model) {
+        return new ResponseEntity(followupService.createFollowup(model), HttpStatus.OK);
     }
 }

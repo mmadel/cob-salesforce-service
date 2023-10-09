@@ -43,4 +43,6 @@ public class FollowupEntity {
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "doctor_id", referencedColumnName = "id")
     private DoctorEntity doctor;
+    @Column
+    private String clinicId;
 }

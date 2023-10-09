@@ -6,10 +6,15 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TransitionRepository extends CrudRepository<TransitionEntity, Long> {
     @Query("select tran from TransitionEntity as tran where tran.nextFollowupDate < :fireDate and tran.state = 'COMPLETE'")
     List<TransitionEntity> findFollowUpDoctors(@Param("fireDate") Long fireDate);
+
+    @Query("select count(tran.id) from TransitionEntity as tran where tran.state = 'POTENTIAL'")
+    Integer findPotentialDoctors();
+
+    @Query("select count(tran.id) from TransitionEntity as tran where tran.state = 'FOLLOWUP'")
+    Integer findFollowupDoctors();
 
 }

@@ -30,6 +30,9 @@ public class TransitionEntity {
 
     @Column
     private String doctorUUID;
+
+    @Column
+    private String clinicId;
     Long createdAt;
 
     @PrePersist

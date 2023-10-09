@@ -13,5 +13,7 @@ public class DoctorModel {
     private String name;
     private String npi;
     private String uuid;
+    private String clinicName;
+    private String clinicId;
     private Long createdAt;
 }

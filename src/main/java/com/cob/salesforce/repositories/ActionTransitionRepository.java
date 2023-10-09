@@ -6,10 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
 public interface ActionTransitionRepository extends CrudRepository<ActionTransitionEntity, Long> {
 
-    @Query("select at.transition from ActionTransitionEntity at where at.uuidDoctor =:doctorUUID and at.transition.state = 'POTENTIAL'")
-    TransitionEntity findPotentialTransitionByDoctor(@Param("doctorUUID") String doctorUUID);
+    @Query("select at.transition from ActionTransitionEntity at where at.uuidDoctor =:doctorUUID and at.transition.state = 'POTENTIAL' and at.transition.clinicId =:clinicId")
+    TransitionEntity findPotentialTransitionByDoctor(@Param("doctorUUID") String doctorUUID,@Param("clinicId") String clinicId);
 }

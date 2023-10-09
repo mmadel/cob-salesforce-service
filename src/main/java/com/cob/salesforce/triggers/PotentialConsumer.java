@@ -21,6 +21,8 @@ public class PotentialConsumer {
                 .name(potentialDoctor.getName())
                 .npi(potentialDoctor.getNpi())
                 .uuid(UUID.randomUUID().toString())
+                .clinicName(potentialDoctor.getClinicName())
+                .clinicId(potentialDoctor.getClinicId())
                 .build();
         potentialService.createPotentialDoctor(model);
     }

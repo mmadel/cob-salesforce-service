@@ -28,8 +28,8 @@ public class FollowupTransitionService extends DoctorTransitionUpdater {
     }
 
     @Override
-    protected void updateTransition(String doctorUUID) {
-        TransitionEntity potentialTransitionByDoctor = actionTransitionRepository.findPotentialTransitionByDoctor(doctorUUID);
+    protected void updateTransition(String doctorUUID,String clinicId) {
+        TransitionEntity potentialTransitionByDoctor = actionTransitionRepository.findPotentialTransitionByDoctor(doctorUUID,clinicId);
         potentialTransitionByDoctor.setState(State.COMPLETE);
         potentialTransitionByDoctor.setNextFollowupDate(1698789600000L);
         updatedTransition = transitionRepository.save(potentialTransitionByDoctor);

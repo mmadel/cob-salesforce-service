@@ -26,19 +26,19 @@ public class TestController {
     @ResponseBody
     @GetMapping("/intake")
     public void intake() {
-        intakeTransitionService.execute("dadc723e-6547-11ee-8c99-0242ac120002", "1e2e9058-6548-11ee-8c99-0242ac120002");
+        //intakeTransitionService.execute("dadc723e-6547-11ee-8c99-0242ac120002", "1e2e9058-6548-11ee-8c99-0242ac120002");
     }
 
     @ResponseBody
     @GetMapping("/first/time")
     public void firstTime() {
-        firstTimeTransitionService.execute("dadc723e-6547-11ee-8c99-0242ac120002", "1e2e9058-6548-11ee-8c99-0242ac120002");
+        //firstTimeTransitionService.execute("dadc723e-6547-11ee-8c99-0242ac120002", "1e2e9058-6548-11ee-8c99-0242ac120002");
     }
 
     @ResponseBody
     @GetMapping("/followup")
     public void followup() {
-        followupTransitionService.execute("dadc723e-6547-11ee-8c99-0242ac120002", "1e2e9058-6548-11ee-8c99-0242ac120002");
+        //followupTransitionService.execute("dadc723e-6547-11ee-8c99-0242ac120002", "1e2e9058-6548-11ee-8c99-0242ac120002");
     }
 
     @ResponseBody

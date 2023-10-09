@@ -28,13 +28,13 @@ public class FollowupService {
 
     public Long createFirstFollowup(FollowupModel model) {
         FollowupEntity created = followupRepository.save(mapper.map(model, FollowupEntity.class));
-        firstTimeTransitionService.execute(model.getUser().getUuid(), model.getDoctor().getUuid());
+        firstTimeTransitionService.execute(model.getUser().getUuid(), model.getDoctor().getUuid(), model.getDoctor().getClinicId());
         return created.getId();
     }
 
     public Long createFollowup(FollowupModel model) {
         FollowupEntity created = followupRepository.save(mapper.map(model, FollowupEntity.class));
-        followupTransitionService.execute(model.getUser().getUuid(), model.getDoctor().getUuid());
+        followupTransitionService.execute(model.getUser().getUuid(), model.getDoctor().getUuid(), model.getDoctor().getClinicId());
         return created.getId();
     }
 }

@@ -25,10 +25,11 @@ public class IntakeTransitionService extends DoctorTransitionCreator {
     }
 
     @Override
-    protected void createTransition(String doctorUUID) {
+    protected void createTransition(String doctorUUID,String clinicId) {
         TransitionEntity entity = new TransitionEntity();
         entity.setState(State.POTENTIAL);
         entity.setDoctorUUID(doctorUUID);
+        entity.setClinicId(clinicId);
         createdTransition = transitionRepository.save(entity);
     }
 }

@@ -16,17 +16,20 @@ public class FirstTimeTransitionService extends DoctorTransitionCreator {
     ActionRepository actionRepository;
     @Autowired
     TransitionRepository transitionRepository;
+
     @Override
     protected void createAction() {
         ActionEntity entity = new ActionEntity();
         entity.setActionType(ActionType.TOUCH);
         createdAction = actionRepository.save(entity);
     }
+
     @Override
-    protected void createTransition(String doctorUUID) {
+    protected void createTransition(String doctorUUID, String clinicId) {
         TransitionEntity entity = new TransitionEntity();
         entity.setState(State.INITIALIZE);
         entity.setDoctorUUID(doctorUUID);
+        entity.setClinicId(clinicId);
         createdTransition = transitionRepository.save(entity);
     }
 }

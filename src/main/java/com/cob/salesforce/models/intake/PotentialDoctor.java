@@ -5,9 +5,12 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class PotentialDoctor{
+public class PotentialDoctor {
     private String name;
     private String npi;
+
+    private String clinicName;
+    private String clinicId;
 
     @Override
     public String toString() {

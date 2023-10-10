@@ -1,10 +1,13 @@
 package com.cob.salesforce.controllers.ui;
 
 import com.cob.salesforce.models.DoctorModel;
+import com.cob.salesforce.models.container.DoctorListContainer;
 import com.cob.salesforce.models.followup.FollowupModel;
 import com.cob.salesforce.services.followup.FollowupDoctorFinderService;
 import com.cob.salesforce.services.followup.FollowupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +36,9 @@ public class FollowupController {
     }
     @ResponseBody
     @GetMapping("/doctors/clinicId/{clinicId}")
-    public ResponseEntity<List<DoctorModel>> getFollowupDoctors(@PathVariable(name = "clinicId") String clinicId) {
-        return new ResponseEntity<>(followupDoctorFinderService.findFollowupDoctor(clinicId), HttpStatus.OK);
+    public ResponseEntity getFollowupDoctors(@RequestParam(name = "offset") String offset,
+                                                                  @RequestParam(name = "limit") String limit, @PathVariable(name = "clinicId") String clinicId) {
+        Pageable paging = PageRequest.of(Integer.parseInt(offset), Integer.parseInt(limit));
+        return new ResponseEntity<>(followupDoctorFinderService.findFollowupDoctor(paging, clinicId), HttpStatus.OK);
     }
 }

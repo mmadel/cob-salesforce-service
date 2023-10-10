@@ -11,10 +11,10 @@ public interface TransitionRepository extends CrudRepository<TransitionEntity, L
     @Query("select tran from TransitionEntity as tran where tran.nextFollowupDate < :fireDate and tran.state = 'COMPLETE'")
     List<TransitionEntity> findFollowUpDoctors(@Param("fireDate") Long fireDate);
 
-    @Query("select count(tran.id) from TransitionEntity as tran where tran.state = 'POTENTIAL'")
-    Integer findPotentialDoctors();
+    @Query("select count(tran.id) from TransitionEntity as tran where tran.state = 'POTENTIAL' and tran.clinicId =:clinicId")
+    Integer findPotentialDoctors(@Param("clinicId") String clinicId);
 
-    @Query("select count(tran.id) from TransitionEntity as tran where tran.state = 'FOLLOWUP'")
-    Integer findFollowupDoctors();
+    @Query("select count(tran.id) from TransitionEntity as tran where tran.state = 'FOLLOWUP' and tran.clinicId =:clinicId")
+    Integer findFollowupDoctors(@Param("clinicId") String clinicId);
 
 }

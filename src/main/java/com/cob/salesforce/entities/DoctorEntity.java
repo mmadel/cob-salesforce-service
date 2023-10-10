@@ -16,10 +16,18 @@ public class DoctorEntity {
     @Column(name = "id")
     private Long id;
 
+    @Column
     private String name;
+    @Column
     private String npi;
+    @Column
     private String uuid;
+    @Column
     private Long createdAt;
+
+    @Column
+    private String clinicId;
+
     @PrePersist
     private void beforeSaving() {
         createdAt = new Date().getTime();

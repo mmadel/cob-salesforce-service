@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 public class CountersService {
     @Autowired
     TransitionRepository transitionRepository;
-    public Integer getPotentialsDoctors() {
-        return transitionRepository.findPotentialDoctors();
+    public Integer getPotentialsDoctors(String clinicId) {
+        return transitionRepository.findPotentialDoctors(clinicId);
     }
 
-    public Integer getFollowUpDoctors() {
-        return transitionRepository.findFollowupDoctors();
+    public Integer getFollowUpDoctors(String clinicId) {
+        return transitionRepository.findFollowupDoctors(clinicId);
     }
 }

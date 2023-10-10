@@ -15,7 +15,7 @@ public class FollowupScheduler {
     @Autowired
     SchedulerTransitionService schedulerTransitionService;
 
-    @Scheduled(cron = "0 0 * * *")
+    @Scheduled(cron = "0 0 * * * *")
     public void fetchMaintenancesTask() {
         String uuid = "03239b56-66c3-11ee-8c99-0242ac120002";
         schedulerTransitionService.execute(uuid);

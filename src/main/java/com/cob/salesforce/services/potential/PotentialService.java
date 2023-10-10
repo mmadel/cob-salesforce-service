@@ -1,4 +1,4 @@
-package com.cob.salesforce.services.intake;
+package com.cob.salesforce.services.potential;
 
 import com.cob.salesforce.entities.DoctorEntity;
 import com.cob.salesforce.models.DoctorModel;

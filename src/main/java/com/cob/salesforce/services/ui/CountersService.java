@@ -9,10 +9,10 @@ public class CountersService {
     @Autowired
     TransitionRepository transitionRepository;
     public Integer getPotentialsDoctors(String clinicId) {
-        return transitionRepository.findPotentialDoctors(clinicId);
+        return transitionRepository.findPotentialDoctorsCounter(clinicId);
     }
 
     public Integer getFollowUpDoctors(String clinicId) {
-        return transitionRepository.findFollowupDoctors(clinicId);
+        return transitionRepository.findFollowupDoctorsCounter(clinicId);
     }
 }

@@ -6,10 +6,8 @@ import lombok.Setter;
 
 @Setter
 @Getter
-@Builder
 public class DoctorModel {
     private Long id;
-
     private String name;
     private String npi;
     private String uuid;

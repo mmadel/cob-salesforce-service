@@ -1,6 +1,8 @@
 package com.cob.salesforce.services.complete;
 
 import com.cob.salesforce.entities.ActionTransitionEntity;
+import com.cob.salesforce.entities.DoctorEntity;
+import com.cob.salesforce.entities.UserEntity;
 import com.cob.salesforce.enums.CompletedTaskType;
 import com.cob.salesforce.models.complete.CompleteTask;
 import com.cob.salesforce.repositories.ActionTransitionRepository;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CompleteTaskService {
@@ -52,15 +55,14 @@ public class CompleteTaskService {
                                            String doctorUUID,
                                            String userUUID,
                                            Long NextFollowupDate) {
-        String doctorData = doctorCacheService.getDoctorByUUID(doctorUUID);
-        String userName = userCacheService.getUserByUUID(userUUID);
+        DoctorEntity doctorEntity = doctorCacheService.getDoctorByUUID(doctorUUID);
+        UserEntity userEntity = userCacheService.getUserByUUID(userUUID);
         CompleteTask completeTask = new CompleteTask();
-        completeTask.setDoctorName(doctorData.split(",")[0]);
-        completeTask.setDoctorNPI(doctorData.split(",")[1]);
-        completeTask.setUserName(userName);
+        completeTask.setDoctorName(doctorEntity.getName());
+        completeTask.setDoctorNPI(doctorEntity.getNpi());
+        completeTask.setUserName(userEntity.getName());
         completeTask.setNextFollowupDate(NextFollowupDate);
         completeTask.setCompletedTaskType(completedTaskType);
         return completeTask;
     }
-
 }

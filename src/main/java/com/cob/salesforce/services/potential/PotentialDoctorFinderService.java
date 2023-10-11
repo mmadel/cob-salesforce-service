@@ -30,16 +30,18 @@ public class PotentialDoctorFinderService {
         List<String> uuids = transitionRepository.findUUIDPotentialDoctors(clinicId);
         if (uuids.size() > 0) {
             pages = doctorRepository.findDoctorsByUUIDs(pageable, uuids);
+            models = pages.getContent().stream().map(doctorEntity -> mapper.map(doctorEntity, DoctorModel.class)).collect(Collectors.toList());
+            long total = (pages).getTotalElements();
+            return getPatientListContainer(total, models);
+        }else{
+            return getPatientListContainer(0, models);
         }
-        models = pages.getContent().stream().map(doctorEntity -> mapper.map(doctorEntity, DoctorModel.class)).collect(Collectors.toList());
-        long total = (pages).getTotalElements();
-        return getPatientListContainer(total, models);
     }
 
     private DoctorListContainer getPatientListContainer(long total, List<DoctorModel> records) {
         return DoctorListContainer.builder()
                 .number_of_records((int) total)
-                .number_of_matching_records(records.size())
+                .number_of_matching_records(records!=null?records.size():0)
                 .records(records)
                 .build();
     }

@@ -53,8 +53,9 @@ public class FollowupService {
     public Long createFollowup(FollowupModel model) {
         FollowupEntity toBeCreated = mapper.map(model, FollowupEntity.class);
         toBeCreated.setClinicId(model.getDoctor().getClinicId());
-        FollowupEntity created = followupRepository.save(toBeCreated);
         followupTransitionService.execute(model.getUser().getUuid(), model.getDoctor().getUuid(), model.getDoctor().getClinicId());
+        toBeCreated.setTransition(followupTransitionService.getUpdatedTransition());
+        FollowupEntity created = followupRepository.save(toBeCreated);
         return created.getId();
     }
     @CachePut(value="doctors",key = "#model.uuid")

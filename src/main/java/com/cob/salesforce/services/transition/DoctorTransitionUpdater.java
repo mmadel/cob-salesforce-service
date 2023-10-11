@@ -16,4 +16,8 @@ public abstract class DoctorTransitionUpdater extends DoctorTransition {
         updateTransition(doctorUUID,clinicId);
         joinActionTransition(createdAction, updatedTransition, userUUID, doctorUUID);
     }
+
+    public TransitionEntity getUpdatedTransition(){
+        return updatedTransition;
+    }
 }

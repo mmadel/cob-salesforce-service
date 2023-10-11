@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,12 +29,13 @@ public class FollowupDoctorFinderService {
         List<DoctorModel> models = null;
         Page<DoctorEntity> pages = null;
         List<String> uuids = transitionRepository.findUUIDFollowupDoctors(clinicId);
-        if (uuids.size() > 0)
+        if (uuids.size() > 0){
             pages = doctorRepository.findDoctorsByUUIDs(pageable, uuids);
-
-        models = pages.getContent().stream().map(doctorEntity -> mapper.map(doctorEntity, DoctorModel.class)).collect(Collectors.toList());
-        long total = (pages).getTotalElements();
-        return getPatientListContainer(total, models);
+            models = pages.getContent().stream().map(doctorEntity -> mapper.map(doctorEntity, DoctorModel.class)).collect(Collectors.toList());
+            long total = (pages).getTotalElements();
+            return getPatientListContainer(total, models);
+        }
+        return getPatientListContainer(0, new ArrayList<>());
     }
 
     private DoctorListContainer getPatientListContainer(long total, List<DoctorModel> records) {

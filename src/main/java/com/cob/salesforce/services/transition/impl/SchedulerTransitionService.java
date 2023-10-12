@@ -41,15 +41,16 @@ public class SchedulerTransitionService extends DoctorTransitionListUpdater {
         calendar.set(Calendar.MILLISECOND, 0);
         System.out.println(calendar.getTimeInMillis());
         List<TransitionEntity> transitions = transitionRepository.findFollowUpDoctors(calendar.getTimeInMillis());
-        if (transitions.size() > 1)
+        if (transitions.size() > 0) {
             createAction();
-        transitions.forEach(transitionEntity -> {
-            transitionEntity.setNextFollowupDate(null);
-            transitionEntity.setState(State.FOLLOWUP);
-            updatedTransition.add(transitionEntity);
-        });
-        TransitionRepository transitionRepository = BeanFactory.getBean(TransitionRepository.class);
-        transitionRepository.saveAll(updatedTransition);
+            transitions.forEach(transitionEntity -> {
+                transitionEntity.setNextFollowupDate(null);
+                transitionEntity.setState(State.FOLLOWUP);
+                updatedTransition.add(transitionEntity);
+
+            });
+            transitionRepository.saveAll(updatedTransition);
+        }
     }
 
 }

@@ -52,13 +52,20 @@ public class FollowupService {
 
     public Long createFollowup(FollowupModel model) {
         FollowupEntity toBeCreated = mapper.map(model, FollowupEntity.class);
+        if(model.getDoctor().getId() == null){
+            DoctorEntity doctorEntity = doctorCacheService.getDoctorByUUID(model.getDoctor().getUuid());
+            model.getDoctor().setId(doctorEntity.getId());
+            toBeCreated.setDoctor(doctorEntity);
+        }
         toBeCreated.setClinicId(model.getDoctor().getClinicId());
+        followupTransitionService.followUpType = model.getFollowUpType();
         followupTransitionService.execute(model.getUser().getUuid(), model.getDoctor().getUuid(), model.getDoctor().getClinicId());
-        toBeCreated.setTransition(followupTransitionService.getUpdatedTransition());
+        toBeCreated.setActionTransition(followupTransitionService.getCreatedActionTransition());
         FollowupEntity created = followupRepository.save(toBeCreated);
         return created.getId();
     }
-    @CachePut(value="doctors",key = "#model.uuid")
+
+    @CachePut(value = "doctors", key = "#model.uuid")
     public DoctorEntity createDoctor(DoctorModel model) {
         return doctorRepository.save(mapper.map(model, DoctorEntity.class));
     }

@@ -7,6 +7,7 @@ import com.cob.salesforce.entities.TransitionEntity;
 import com.cob.salesforce.repositories.ActionTransitionRepository;
 
 public abstract class DoctorTransition {
+    protected ActionTransitionEntity createdActionTransition;
     protected void joinActionTransition(ActionEntity action, TransitionEntity transition,
                               String userUUID, String doctorUUID) {
         ActionTransitionRepository actionTransitionRepository = BeanFactory.getBean(ActionTransitionRepository.class);
@@ -15,6 +16,6 @@ public abstract class DoctorTransition {
         actionTransition.setTransition(transition);
         actionTransition.setUuidUser(userUUID);
         actionTransition.setUuidDoctor(doctorUUID);
-        actionTransitionRepository.save(actionTransition);
+        createdActionTransition = actionTransitionRepository.save(actionTransition);
     }
 }

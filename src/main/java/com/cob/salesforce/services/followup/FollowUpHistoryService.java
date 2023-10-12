@@ -31,12 +31,12 @@ public class FollowUpHistoryService {
         List<ActionType> includedActionType = new ArrayList<>();
         includedActionType.add(ActionType.TOUCH);
         includedActionType.add(ActionType.VISIT_FOLLOW_UP);
-        return actionTransitionRepository.getDoctorHistory(clinicId, doctorUUID,includedActionType)
+        return actionTransitionRepository.getDoctorHistory(clinicId, doctorUUID, includedActionType)
                 .stream()
                 .map(actionTransitionEntity -> {
                     DoctorEntity doctorEntity = doctorCacheService.
                             getDoctorByUUID(actionTransitionEntity.getUuidDoctor());
-                    FollowupEntity followupEntity = getFollowupFeedback(actionTransitionEntity.getTransition().getClinicId(), actionTransitionEntity.getTransition().getId(), doctorEntity.getId());
+                    FollowupEntity followupEntity = getFollowupFeedback(actionTransitionEntity.getTransition().getClinicId(), actionTransitionEntity.getId(), doctorEntity.getId());
                     return FollowupDoctorHistory.builder()
                             .visitedDate(actionTransitionEntity.getTransition().getCreatedAt())
                             .impression(followupEntity != null ? followupEntity.getImpression() : null)
@@ -47,7 +47,7 @@ public class FollowUpHistoryService {
                 }).collect(Collectors.toList());
     }
 
-    private FollowupEntity getFollowupFeedback(String clinicId, Long transitionId, Long doctorId) {
-        return followupRepository.findFollowupByTransition(clinicId, transitionId, doctorId);
+    private FollowupEntity getFollowupFeedback(String clinicId, Long actionTransitionId, Long doctorId) {
+        return followupRepository.findFollowupByTransition(clinicId, actionTransitionId, doctorId);
     }
 }

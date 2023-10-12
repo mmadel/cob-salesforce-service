@@ -45,8 +45,8 @@ public class FollowupEntity {
     private DoctorEntity doctor;
 
     @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "transition_id", referencedColumnName = "id")
-    private TransitionEntity transition;
+    @JoinColumn(name = "action_transition_id", referencedColumnName = "id")
+    private ActionTransitionEntity actionTransition;
     @Column
     private String clinicId;
 }

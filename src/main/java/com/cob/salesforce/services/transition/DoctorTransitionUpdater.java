@@ -1,11 +1,14 @@
 package com.cob.salesforce.services.transition;
 
 import com.cob.salesforce.entities.ActionEntity;
+import com.cob.salesforce.entities.ActionTransitionEntity;
 import com.cob.salesforce.entities.TransitionEntity;
 
 public abstract class DoctorTransitionUpdater extends DoctorTransition {
     protected ActionEntity createdAction;
     protected TransitionEntity updatedTransition;
+
+
 
     protected abstract void createAction();
 
@@ -19,5 +22,9 @@ public abstract class DoctorTransitionUpdater extends DoctorTransition {
 
     public TransitionEntity getUpdatedTransition(){
         return updatedTransition;
+    }
+
+    public ActionTransitionEntity getCreatedActionTransition(){
+        return createdActionTransition;
     }
 }

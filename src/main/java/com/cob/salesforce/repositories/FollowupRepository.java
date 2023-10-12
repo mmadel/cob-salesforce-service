@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface FollowupRepository extends CrudRepository<FollowupEntity, Long> {
 
-    @Query("select fup from FollowupEntity fup where fup.transition.id =:transitionId and fup.clinicId =:clinicId and fup.doctor.id =:doctorId")
-    FollowupEntity findFollowupByTransition(@Param("clinicId") String clinicId, @Param("transitionId") Long transitionId, @Param("doctorId") Long doctorId);
+    @Query("select fup from FollowupEntity fup where fup.actionTransition.id =:actionTransitionId and fup.clinicId =:clinicId and fup.doctor.id =:doctorId")
+    FollowupEntity findFollowupByTransition(@Param("clinicId") String clinicId, @Param("actionTransitionId") Long actionTransitionId, @Param("doctorId") Long doctorId);
 }

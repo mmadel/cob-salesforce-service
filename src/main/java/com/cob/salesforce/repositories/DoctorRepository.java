@@ -16,4 +16,7 @@ public interface DoctorRepository extends CrudRepository<DoctorEntity, Long> {
     Page<DoctorEntity> findDoctorsByUUIDs(Pageable pageable, @Param("uuids") List<String> uuids);
 
     Optional<DoctorEntity> findByUuid(String uuid);
+
+    Optional<DoctorEntity> findByNameAndNpi(String name, String npi);
+
 }

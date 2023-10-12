@@ -1,6 +1,5 @@
 package com.cob.salesforce.services;
 
-import com.cob.salesforce.entities.DoctorEntity;
 import com.cob.salesforce.entities.UserEntity;
 import com.cob.salesforce.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +7,6 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)

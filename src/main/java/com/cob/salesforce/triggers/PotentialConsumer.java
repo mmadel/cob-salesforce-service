@@ -14,9 +14,8 @@ public class PotentialConsumer {
     @Autowired
     PotentialService potentialService;
 
-    @RabbitListener(queues = "CLINIC1_POTENTIAL_Q")
+    @RabbitListener(queues = "POTENTIAL_Q")
     private void consumeIntakeMessage(PotentialDoctor potentialDoctor) {
-
         DoctorModel model = new DoctorModel();
         model.setName(potentialDoctor.getName());
         model.setNpi(potentialDoctor.getNpi());

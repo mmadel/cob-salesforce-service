@@ -1,6 +1,7 @@
 package com.cob.salesforce.services.transition.impl;
 
 import com.cob.salesforce.entities.ActionEntity;
+import com.cob.salesforce.entities.ActionTransitionEntity;
 import com.cob.salesforce.entities.TransitionEntity;
 import com.cob.salesforce.enums.ActionType;
 import com.cob.salesforce.enums.State;
@@ -33,5 +34,8 @@ public class FirstTimeTransitionService extends DoctorTransitionCreator {
         entity.setClinicId(clinicId);
         entity.setNextFollowupDate(nextFollowup);
         createdTransition = transitionRepository.save(entity);
+    }
+    public ActionTransitionEntity getCreatedActionTransition(){
+        return createdActionTransition;
     }
 }

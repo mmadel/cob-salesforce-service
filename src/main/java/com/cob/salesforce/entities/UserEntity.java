@@ -21,6 +21,7 @@ public class UserEntity {
     private String name;
     private Long createdAt;
 
+
     @PrePersist
     private void beforeSaving() {
         createdAt = new Date().getTime();

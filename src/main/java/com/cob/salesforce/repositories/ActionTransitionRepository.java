@@ -16,11 +16,14 @@ public interface ActionTransitionRepository extends CrudRepository<ActionTransit
 
     @Query("select at.transition from ActionTransitionEntity at where at.uuidDoctor =:doctorUUID and at.transition.state = 'FOLLOWUP' and at.transition.clinicId =:clinicId")
     TransitionEntity findFollowTransitionByDoctor(@Param("doctorUUID") String doctorUUID, @Param("clinicId") String clinicId);
-    @Query("select at from ActionTransitionEntity at where at.transition.state ='COMPLETE' and at.transition.clinicId =:clinicId and at.action.actionType = 'VISIT_FOLLOW_UP'")
-    List<ActionTransitionEntity> findCompletedFollowupTask(@Param("clinicId") String clinicId);
 
-    @Query("select at from ActionTransitionEntity at where at.transition.state ='INITIALIZE' and at.transition.clinicId =:clinicId and at.action.actionType = 'TOUCH'")
-    List<ActionTransitionEntity> findCompletedFirstVisitTask(@Param("clinicId") String clinicId);
     @Query("select at from ActionTransitionEntity at where at.uuidDoctor =:doctorUUID and at.transition.clinicId =:clinicId and at.action.actionType IN :actionTypes")
-    List<ActionTransitionEntity> getDoctorHistory(@Param("clinicId") String clinicId,@Param("doctorUUID") String doctorUUID , @Param("actionTypes") List<ActionType> actionTypes);
+    List<ActionTransitionEntity> getDoctorHistory(@Param("clinicId") String clinicId, @Param("doctorUUID") String doctorUUID, @Param("actionTypes") List<ActionType> actionTypes);
+
+    @Query("select at.createdAt from ActionTransitionEntity at where at.uuidDoctor =:doctorUUID and at.transition.clinicId =:clinicId " +
+            "and at.uuidUser =:userUUID and at.action.actionType ='VISIT_FOLLOW_UP' " +
+            "order by at.createdAt asc")
+    List<Long> getDateOfFirstFollowUpByUser(@Param("clinicId") String clinicId,
+                                      @Param("doctorUUID") String doctorUUID,
+                                      @Param("userUUID") String userUUID);
 }

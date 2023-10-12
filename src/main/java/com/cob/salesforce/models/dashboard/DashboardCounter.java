@@ -10,4 +10,5 @@ import lombok.Setter;
 public class DashboardCounter {
     Integer potentialDoctorsCounter;
     Integer followupDoctorsCounter;
+    Integer userAchievement;
 }

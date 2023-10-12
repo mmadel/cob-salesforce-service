@@ -44,9 +44,12 @@ public class FollowupService {
         FollowupEntity toBeCreated = mapper.map(model, FollowupEntity.class);
         toBeCreated.getDoctor().setId(createdDoctor.getId());
         toBeCreated.setClinicId(model.getDoctor().getClinicId());
-        FollowupEntity created = followupRepository.save(toBeCreated);
         firstTimeTransitionService.nextFollowup = model.getNextFollowupDate();
+
+        followupTransitionService.followUpType = model.getFollowUpType();
         firstTimeTransitionService.execute(model.getUser().getUuid(), createdDoctor.getUuid(), model.getDoctor().getClinicId());
+        toBeCreated.setActionTransition(firstTimeTransitionService.getCreatedActionTransition());
+        FollowupEntity created = followupRepository.save(toBeCreated);
         return created.getId();
     }
 

@@ -24,12 +24,15 @@ public class CountersController {
     public ResponseEntity<Integer> getFollowupDoctors(@PathVariable(name = "clinicId") String clinicId) {
         return new ResponseEntity<>(countersService.getFollowUpDoctors(clinicId), HttpStatus.OK);
     }
+
     @ResponseBody
-    @GetMapping("/dashboard/clinicId/{clinicId}")
-    public ResponseEntity<DashboardCounter> getDashboardCounter(@PathVariable(name = "clinicId") String clinicId) {
+    @GetMapping("/dashboard/clinicId/{clinicId}/user/{userUUID}")
+    public ResponseEntity<DashboardCounter> getDashboardCounter(@PathVariable(name = "clinicId") String clinicId
+            , @PathVariable(name = "userUUID") String userUUID) {
         return new ResponseEntity<>(DashboardCounter.builder()
                 .potentialDoctorsCounter(countersService.getPotentialsDoctors(clinicId))
                 .followupDoctorsCounter(countersService.getFollowUpDoctors(clinicId))
+                .userAchievement(countersService.getUserAchievement(userUUID))
                 .build(), HttpStatus.OK);
     }
 

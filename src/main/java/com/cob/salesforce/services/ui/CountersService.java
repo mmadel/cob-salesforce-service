@@ -36,4 +36,9 @@ public class CountersService {
     public Integer getUserFirstTimeVisitTarget(String userUUID){
         return userTargetRepository.findUserByUUID(userUUID).getFirstTime();
     }
+
+    public Integer getUserFirstTimeVisitAchievement(String userUUID){
+        return actionTransitionRepository.getFirstTimeUserTargetAchieved(userUUID);
+    }
+
 }

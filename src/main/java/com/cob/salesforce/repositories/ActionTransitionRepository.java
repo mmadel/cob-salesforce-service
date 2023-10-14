@@ -24,6 +24,9 @@ public interface ActionTransitionRepository extends CrudRepository<ActionTransit
             "and at.uuidUser =:userUUID and at.action.actionType ='VISIT_FOLLOW_UP' " +
             "order by at.createdAt asc")
     List<Long> getDateOfFirstFollowUpByUser(@Param("clinicId") String clinicId,
-                                      @Param("doctorUUID") String doctorUUID,
-                                      @Param("userUUID") String userUUID);
+                                            @Param("doctorUUID") String doctorUUID,
+                                            @Param("userUUID") String userUUID);
+
+    @Query("select count(at.id) from ActionTransitionEntity at  where at.action.actionType='TOUCH' and at.uuidUser =:userUUID")
+    Integer getFirstTimeUserTargetAchieved(@Param("userUUID") String userUUID);
 }

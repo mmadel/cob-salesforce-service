@@ -34,6 +34,7 @@ public class CountersController {
                 .followupDoctorsCounter(countersService.getFollowUpDoctors(clinicId))
                 .userAchievement(countersService.getUserAchievement(userUUID))
                 .userFirstTimeVisitTarget(countersService.getUserFirstTimeVisitTarget(userUUID))
+                .userFirstTimeVisitAchievement(countersService.getUserFirstTimeVisitAchievement(userUUID))
                 .build(), HttpStatus.OK);
     }
 

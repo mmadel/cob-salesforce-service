@@ -12,4 +12,5 @@ public class DashboardCounter {
     Integer followupDoctorsCounter;
     Integer userAchievement;
     Integer userFirstTimeVisitTarget;
+    Integer userFirstTimeVisitAchievement;
 }

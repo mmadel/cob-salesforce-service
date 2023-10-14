@@ -4,7 +4,9 @@ import com.cob.salesforce.services.transition.impl.FirstTimeTransitionService;
 import com.cob.salesforce.services.transition.impl.FollowupTransitionService;
 import com.cob.salesforce.services.transition.impl.IntakeTransitionService;
 import com.cob.salesforce.services.transition.impl.SchedulerTransitionService;
+import com.cob.salesforce.services.ui.CountersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +24,9 @@ public class TestController {
 
     @Autowired
     SchedulerTransitionService schedulerTransitionService;
+
+    @Autowired
+    SimpMessagingTemplate simpMessagingTemplate;
 
     @ResponseBody
     @GetMapping("/intake")

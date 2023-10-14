@@ -9,7 +9,9 @@ import com.cob.salesforce.repositories.ActionRepository;
 import com.cob.salesforce.repositories.ActionTransitionRepository;
 import com.cob.salesforce.repositories.TransitionRepository;
 import com.cob.salesforce.services.transition.DoctorTransitionListUpdater;
+import com.cob.salesforce.services.ui.CountersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -23,6 +25,11 @@ public class SchedulerTransitionService extends DoctorTransitionListUpdater {
     TransitionRepository transitionRepository;
     @Autowired
     ActionTransitionRepository actionTransitionRepository;
+
+    @Autowired
+    CountersService countersService;
+    @Autowired
+    SimpMessagingTemplate simpMessagingTemplate;
 
     @Override
     protected void createAction() {
@@ -46,7 +53,9 @@ public class SchedulerTransitionService extends DoctorTransitionListUpdater {
                 transitionEntity.setNextFollowupDate(null);
                 transitionEntity.setState(State.FOLLOWUP);
                 updatedTransition.add(transitionEntity);
+                Integer numberOfFollowupDoctors = countersService.getFollowUpDoctors(transitionEntity.getClinicId());
 
+                simpMessagingTemplate.convertAndSend("/topic/followup", transitionEntity.getClinicId() + "_" + numberOfFollowupDoctors);
             });
             transitionRepository.saveAll(updatedTransition);
         }

@@ -33,4 +33,7 @@ public class CountersService {
     public Integer getUserAchievement(String userUUID) {
         return userTargetRepository.findUserByUUID(userUUID).getAchievement();
     }
+    public Integer getUserFirstTimeVisitTarget(String userUUID){
+        return userTargetRepository.findUserByUUID(userUUID).getFirstTime();
+    }
 }

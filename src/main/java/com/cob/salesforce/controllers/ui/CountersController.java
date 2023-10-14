@@ -33,6 +33,7 @@ public class CountersController {
                 .potentialDoctorsCounter(countersService.getPotentialsDoctors(clinicId))
                 .followupDoctorsCounter(countersService.getFollowUpDoctors(clinicId))
                 .userAchievement(countersService.getUserAchievement(userUUID))
+                .userFirstTimeVisitTarget(countersService.getUserFirstTimeVisitTarget(userUUID))
                 .build(), HttpStatus.OK);
     }
 

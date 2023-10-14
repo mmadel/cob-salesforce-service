@@ -33,7 +33,7 @@ public class UserService {
                 }).collect(Collectors.toList());
     }
 
-    public Long updaterFirstVisitUserTarget(UserTarget userTarget) {
+    public Long updateFirstVisitUserTarget(UserTarget userTarget) {
         UserTargetEntity userTargetEntity = userTargetRepository.findUserByUUID(userTarget.getUserUUID());
         if (userTarget.getFirstTime() != null)
             userTargetEntity.setFirstTime(userTarget.getFirstTime());

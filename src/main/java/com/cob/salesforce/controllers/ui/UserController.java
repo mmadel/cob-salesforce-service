@@ -2,6 +2,7 @@ package com.cob.salesforce.controllers.ui;
 
 import com.cob.salesforce.models.followup.FollowupModel;
 import com.cob.salesforce.models.target.UserTarget;
+import com.cob.salesforce.repositories.UserTargetRepository;
 import com.cob.salesforce.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,6 @@ public class UserController {
     @ResponseBody
     @PostMapping("/target/update")
     public ResponseEntity updateUserTarget(@RequestBody UserTarget userTarget) {
-        return new ResponseEntity(userService.updaterFirstVisitUserTarget(userTarget), HttpStatus.OK);
+        return new ResponseEntity(userService.updateFirstVisitUserTarget(userTarget), HttpStatus.OK);
     }
 }

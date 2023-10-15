@@ -1,6 +1,5 @@
 package com.cob.salesforce.services.transition.impl;
 
-import com.cob.salesforce.BeanFactory;
 import com.cob.salesforce.entities.ActionEntity;
 import com.cob.salesforce.entities.TransitionEntity;
 import com.cob.salesforce.enums.ActionType;
@@ -14,8 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class SchedulerTransitionService extends DoctorTransitionListUpdater {
@@ -53,12 +53,22 @@ public class SchedulerTransitionService extends DoctorTransitionListUpdater {
                 transitionEntity.setNextFollowupDate(null);
                 transitionEntity.setState(State.FOLLOWUP);
                 updatedTransition.add(transitionEntity);
-                Integer numberOfFollowupDoctors = countersService.getFollowUpDoctors(transitionEntity.getClinicId());
-
-                simpMessagingTemplate.convertAndSend("/topic/followup", transitionEntity.getClinicId() + "_" + numberOfFollowupDoctors);
             });
-            transitionRepository.saveAll(updatedTransition);
+            pushNumberOfFollowupDoctors(transitionRepository.saveAll(updatedTransition));
         }
     }
 
+    private void pushNumberOfFollowupDoctors(Iterable<TransitionEntity> transitionsIterable) {
+        Set<String> clinicIds = new HashSet<>();
+        List<TransitionEntity> transitionEntities =
+                StreamSupport.stream(transitionsIterable.spliterator(), false)
+                        .collect(Collectors.toList());
+        for (TransitionEntity transition : transitionEntities) {
+            clinicIds.add(transition.getClinicId());
+        }
+        clinicIds.forEach(clinicId -> {
+            Integer numberOfFollowupDoctors = countersService.getFollowUpDoctors(clinicId);
+            simpMessagingTemplate.convertAndSend("/topic/followup", clinicId + "_" + numberOfFollowupDoctors);
+        });
+    }
 }

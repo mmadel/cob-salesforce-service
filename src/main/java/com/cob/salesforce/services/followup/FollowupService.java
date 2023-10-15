@@ -10,9 +10,11 @@ import com.cob.salesforce.repositories.UserRepository;
 import com.cob.salesforce.services.DoctorCacheService;
 import com.cob.salesforce.services.transition.impl.FirstTimeTransitionService;
 import com.cob.salesforce.services.transition.impl.FollowupTransitionService;
+import com.cob.salesforce.services.ui.CountersService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,10 @@ public class FollowupService {
 
     @Autowired
     DoctorCacheService doctorCacheService;
+    @Autowired
+    CountersService countersService;
+    @Autowired
+    SimpMessagingTemplate simpMessagingTemplate;
 
     public Long createFirstFollowup(FollowupModel model) {
         model.getDoctor().setUuid(UUID.randomUUID().toString());
@@ -50,6 +56,8 @@ public class FollowupService {
         firstTimeTransitionService.execute(model.getUser().getUuid(), createdDoctor.getUuid(), model.getDoctor().getClinicId());
         toBeCreated.setActionTransition(firstTimeTransitionService.getCreatedActionTransition());
         FollowupEntity created = followupRepository.save(toBeCreated);
+        Integer userFirstTimeVisitAchievement = countersService.getUserFirstTimeVisitAchievement(model.getUser().getUuid());
+        simpMessagingTemplate.convertAndSend("/topic/first/visit/achieved", model.getUser().getUuid() + "_" +userFirstTimeVisitAchievement);
         return created.getId();
     }
 

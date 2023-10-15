@@ -25,7 +25,6 @@ public class SecurityConfiguration {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        System.out.println("@@@@@@@@@@@@@@@@@@ SecurityFilterChain" );
         DelegatingJwtGrantedAuthoritiesConverter authoritiesConverter =
                 new DelegatingJwtGrantedAuthoritiesConverter(
                         new JwtGrantedAuthoritiesConverter(),

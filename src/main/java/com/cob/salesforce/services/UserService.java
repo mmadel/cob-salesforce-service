@@ -49,7 +49,7 @@ public class UserService {
         userTargetEntity.setUser(user);
         UserTargetEntity created = userTargetRepository.save(userTargetEntity);
         Integer userFirstTimeVisitTarget = countersService.getUserFirstTimeVisitTarget(userTarget.getUserUUID());
-        simpMessagingTemplate.convertAndSend("/topic/firstvisit", userTarget.getUserUUID() + "_" +userFirstTimeVisitTarget);
+        simpMessagingTemplate.convertAndSend("/topic/first/visit/target", userTarget.getUserUUID() + "_" +userFirstTimeVisitTarget);
         return created.getId();
     }
 }

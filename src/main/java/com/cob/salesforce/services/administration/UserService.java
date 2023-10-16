@@ -13,6 +13,7 @@ import com.cob.salesforce.repositories.UserRepository;
 import com.cob.salesforce.services.administration.keycloak.KeyCloakUsersCreatorService;
 import com.cob.salesforce.services.administration.keycloak.KeyCloakUsersFinderService;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,9 @@ public class UserService {
     ClinicUserRepository clinicUserRepository;
     @Autowired
     ClinicRepository clinicRepository;
+
+    @Autowired
+    ModelMapper mapper;
 
     public UserModel create(UserModel userModel) throws NoSuchPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException, UserKeyCloakException, UserException {
         KeyCloakUser keyCloakUser = KeyCloakUser.builder()
@@ -108,7 +112,19 @@ public class UserService {
         });
         return userModels;
     }
-
+    public List<ClinicModel> findByUserId(String userId) {
+        List<Long> clinicIds = new ArrayList<>();
+        clinicUserRepository.findByUserUUID(userId).get()
+                .forEach(userClinicEntity -> {
+                    clinicIds.add(Long.parseLong(userClinicEntity.getClinicId()));
+                });
+        List<ClinicModel> clinicModels = new ArrayList<>();
+        clinicRepository.findAllById(clinicIds)
+                .forEach(clinicEntity -> {
+                    clinicModels.add(mapper.map(clinicEntity, ClinicModel.class));
+                });
+        return clinicModels;
+    }
     private UserEntity createDBUser(UserModel userModel) {
         UserEntity user = new UserEntity();
         user.setName(userModel.getName());

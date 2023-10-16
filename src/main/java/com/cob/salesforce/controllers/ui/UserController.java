@@ -49,4 +49,10 @@ public class UserController {
         return new ResponseEntity(userService.getAll(), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/find/clinics/userUUID/{userUUID}")
+    @ResponseBody
+    public ResponseEntity getByUserUUID(@PathVariable String userUUID) {
+        return new ResponseEntity(userService.findByUserId(userUUID), HttpStatus.OK);
+    }
+
 }

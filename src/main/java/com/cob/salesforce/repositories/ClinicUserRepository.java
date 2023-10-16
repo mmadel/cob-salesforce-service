@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ClinicUserRepository extends CrudRepository<ClinicUserEntity, Long> {
 
@@ -15,4 +16,7 @@ public interface ClinicUserRepository extends CrudRepository<ClinicUserEntity, L
 
     @Query("select uc from ClinicUserEntity uc where uc.user.uuid in :ids")
     List<ClinicUserEntity> findByUsers(@Param("ids") List<String> ids);
+
+    @Query("select uc from ClinicUserEntity uc where uc.user.uuid  =:uuid")
+    Optional<List<ClinicUserEntity>> findByUserUUID(@Param("uuid") String uuid);
 }

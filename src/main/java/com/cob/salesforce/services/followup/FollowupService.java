@@ -8,6 +8,7 @@ import com.cob.salesforce.repositories.DoctorRepository;
 import com.cob.salesforce.repositories.FollowupRepository;
 import com.cob.salesforce.repositories.UserRepository;
 import com.cob.salesforce.services.DoctorCacheService;
+import com.cob.salesforce.services.administration.UserService;
 import com.cob.salesforce.services.transition.impl.FirstTimeTransitionService;
 import com.cob.salesforce.services.transition.impl.FollowupTransitionService;
 import com.cob.salesforce.services.ui.CountersService;
@@ -44,6 +45,7 @@ public class FollowupService {
     @Autowired
     SimpMessagingTemplate simpMessagingTemplate;
 
+
     public Long createFirstFollowup(FollowupModel model) {
         model.getDoctor().setUuid(UUID.randomUUID().toString());
         DoctorEntity createdDoctor = createDoctor(model.getDoctor());
@@ -55,6 +57,7 @@ public class FollowupService {
         followupTransitionService.followUpType = model.getFollowUpType();
         firstTimeTransitionService.execute(model.getUser().getUuid(), createdDoctor.getUuid(), model.getDoctor().getClinicId());
         toBeCreated.setActionTransition(firstTimeTransitionService.getCreatedActionTransition());
+        toBeCreated.setUser(userRepository.findByUuid(model.getUser().getUuid()).orElseThrow(()-> new IllegalArgumentException("user not found")));
         FollowupEntity created = followupRepository.save(toBeCreated);
         Integer userFirstTimeVisitAchievement = countersService.getUserFirstTimeVisitAchievement(model.getUser().getUuid());
         simpMessagingTemplate.convertAndSend("/topic/first/visit/achieved", model.getUser().getUuid() + "_" +userFirstTimeVisitAchievement);

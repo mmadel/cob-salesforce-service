@@ -7,9 +7,11 @@ import com.cob.salesforce.models.security.KeyCloakUser;
 import com.cob.salesforce.services.security.AuthenticationService;
 import com.cob.salesforce.utils.Encryption;
 import com.google.gson.Gson;
+import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
@@ -29,6 +31,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.transaction.Transactional;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -60,8 +63,34 @@ public class KeyCloakUsersCreatorService {
     private String admin_username;
     @Value("${kc.administrator.password}")
     private String admin_password;
-    public UserRepresentation create(KeyCloakUser keyCloakUser) throws NoSuchPaddingException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, WebApplicationException {
-return null;
+    public UserRepresentation  create(KeyCloakUser keyCloakUser) throws NoSuchPaddingException, NoSuchAlgorithmException, UnsupportedEncodingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, WebApplicationException, UserException, UserKeyCloakException {
+
+        RealmResource realmResource = keycloakService.realm(realm);
+        UsersResource usersResource = realmResource.users();
+        UserRepresentation user = prepareUserRepresentation(keyCloakUser);
+        Response response = usersResource.create(user);
+        String userId = null;
+        try {
+            userId = CreatedResponseUtil.getCreatedId(response);
+
+        } catch (WebApplicationException ex) {
+            throw new UserException(HttpStatus.CONFLICT, UserException.USER_IS_EXISTS, new Object[]{keyCloakUser.getUsername()});
+        }
+        setUserPassword(userId, keyCloakUser.getPassword());
+
+        UserResource userResource = usersResource.get(userId);
+
+        updateAttribute(userResource, "address", keyCloakUser.getAddress());
+        ClientRepresentation clientRepresentation = realmResource.clients().findByClientId("salesforce-ui").get(0);
+        List<RoleRepresentation> roles = null;
+        try {
+            roles = prepareRoleRepresentation(keyCloakUser.getRoles(), realmResource, clientRepresentation);
+        } catch (WebApplicationException ex) {
+            throw new UserException(HttpStatus.CONFLICT, UserException.USER_ROLE_NOT_FOUND, new Object[]{keyCloakUser.getRoles().get(0)});
+        }
+
+        userResource.roles().clientLevel(clientRepresentation.getId()).add(roles);
+        return userResource.toRepresentation();
     }
     private List<RoleRepresentation> prepareRoleRepresentation(List<String> roles, RealmResource realmResource, ClientRepresentation clientRepresentation) {
         List<RoleRepresentation> roleRepresentation = new ArrayList<>();

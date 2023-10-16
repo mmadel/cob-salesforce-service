@@ -12,4 +12,7 @@ public interface ClinicUserRepository extends CrudRepository<ClinicUserEntity, L
 
     @Query("select cu.user from ClinicUserEntity cu where cu.clinicId =:clinicId")
     List<UserEntity> findUsersByClinic(@Param("clinicId") String clinicId);
+
+    @Query("select uc from ClinicUserEntity uc where uc.user.uuid in :ids")
+    List<ClinicUserEntity> findByUsers(@Param("ids") List<String> ids);
 }

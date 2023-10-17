@@ -52,9 +52,9 @@ public class SchedulerTransitionService extends DoctorTransitionListUpdater {
             transitions.forEach(transitionEntity -> {
                 transitionEntity.setNextFollowupDate(null);
                 transitionEntity.setState(State.FOLLOWUP);
-                updatedTransition.add(transitionEntity);
+                updatedTransitions.add(transitionEntity);
             });
-            pushNumberOfFollowupDoctors(transitionRepository.saveAll(updatedTransition));
+            pushNumberOfFollowupDoctors(transitionRepository.saveAll(updatedTransitions));
         }
     }
 

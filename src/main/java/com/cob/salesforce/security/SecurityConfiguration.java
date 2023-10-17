@@ -34,7 +34,7 @@ public class SecurityConfiguration {
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         httpSecurity.authorizeHttpRequests(authorize -> authorize
-                        .antMatchers("/authentication/tokens","/counters/**").permitAll()
+                        .antMatchers("/authentication/tokens","/counters/**","/test/scheduler").permitAll()
                         .antMatchers("salesforce-service/api/**").hasAnyRole("administrator", "normal")
                         .antMatchers().hasRole("administrator")
                         .anyRequest().authenticated()

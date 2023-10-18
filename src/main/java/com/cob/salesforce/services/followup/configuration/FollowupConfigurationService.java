@@ -20,15 +20,29 @@ public class FollowupConfigurationService {
     ModelMapper mapper;
 
     public Long createOrUpdate(FollowupConfiguration followupConfiguration) {
-        FollowupConfigurationEntity tobeCreated = mapper.map(followupConfiguration, FollowupConfigurationEntity.class);
+        FollowupConfigurationEntity tobeCreated = new FollowupConfigurationEntity();
+        tobeCreated.setClinicId(followupConfiguration.getClinicId());
+        tobeCreated.setFollowupConfiguration(mapper.map(followupConfiguration, FollowupConfiguration.class));
+        tobeCreated.setId(followupConfiguration.getId());
         return followupConfigurationRepository.save(tobeCreated).getId();
     }
 
     public FollowupConfiguration get(Integer clinicId) {
         Optional<FollowupConfigurationEntity> configurationEntityOptional = followupConfigurationRepository.findByClinicId(clinicId);
         if (!configurationEntityOptional.isEmpty())
-            return mapper.map(followupConfigurationRepository.findByClinicId(clinicId).get(), FollowupConfiguration.class);
+            return buildFollowupConfiguration(configurationEntityOptional.get());
         else
-            return new FollowupConfiguration();
+            return FollowupConfiguration.builder().build();
+    }
+
+    private FollowupConfiguration buildFollowupConfiguration(FollowupConfigurationEntity entity) {
+        return FollowupConfiguration.builder()
+                .firstTimeGood(entity.getFollowupConfiguration().getFirstTimeGood())
+                .firstTimeNeutral(entity.getFollowupConfiguration().getFirstTimeNeutral())
+                .firstTimeNotWorth(entity.getFollowupConfiguration().getFirstTimeNotWorth())
+                .nextTimeGood(entity.getFollowupConfiguration().getNextTimeGood())
+                .nextTimeNeutral(entity.getFollowupConfiguration().getNextTimeNeutral())
+                .nextTimeNotWorth(entity.getFollowupConfiguration().getNextTimeNotWorth())
+                .build();
     }
 }

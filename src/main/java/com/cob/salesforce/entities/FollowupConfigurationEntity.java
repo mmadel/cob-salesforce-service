@@ -1,12 +1,21 @@
 package com.cob.salesforce.entities;
 
+import com.cob.salesforce.models.followup.configuration.FollowupConfiguration;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "followup_configuration")
+@Table(name = "clinic_followup_configuration")
+@TypeDefs({
+        @TypeDef(name = "json", typeClass = JsonStringType.class)
+})
 @Setter
 @Getter
 public class FollowupConfigurationEntity {
@@ -14,18 +23,9 @@ public class FollowupConfigurationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "first_time_good")
-    Integer firstTimeGood;
-    @Column(name = "first_Time_neutral")
-    Integer firstTimeNeutral;
-    @Column(name = "first_time_not_Worth")
-    Integer firstTimeNotWorth;
-    @Column(name = "next_time_good")
-    Integer nextTimeGood;
-    @Column(name = "next_time_neutral")
-    Integer nextTimeNeutral;
-    @Column(name = "next_time_not_worth")
-    Integer nextTimeNotWorth;
+    @Column(name = "followup_configuration", columnDefinition = "json")
+    @Type(type = "json")
+    private FollowupConfiguration followupConfiguration;
     @Column(name = "clinic_id")
     Integer clinicId;
 }

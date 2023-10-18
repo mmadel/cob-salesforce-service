@@ -73,7 +73,7 @@ public class FollowupService {
         }
         toBeCreated.setClinicId(model.getDoctor().getClinicId());
         followupTransitionService.followUpType = model.getFollowUpType();
-        followupTransitionService.execute(model.getUser().getUuid(), model.getDoctor().getUuid(), model.getDoctor().getClinicId());
+        followupTransitionService.execute(model.getUser().getUuid(), model.getDoctor().getUuid(), model.getDoctor().getClinicId(),model.getNextFollowupDate());
         toBeCreated.setActionTransition(followupTransitionService.getCreatedActionTransition());
         toBeCreated.setUser(userRepository.findByUuid(model.getUser().getUuid()).orElseThrow(()-> new IllegalArgumentException("user not found")));
         FollowupEntity created = followupRepository.save(toBeCreated);

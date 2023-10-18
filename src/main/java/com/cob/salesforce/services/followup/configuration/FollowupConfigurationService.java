@@ -37,6 +37,7 @@ public class FollowupConfigurationService {
 
     private FollowupConfiguration buildFollowupConfiguration(FollowupConfigurationEntity entity) {
         return FollowupConfiguration.builder()
+                .id(entity.getId())
                 .firstTimeGood(entity.getFollowupConfiguration().getFirstTimeGood())
                 .firstTimeNeutral(entity.getFollowupConfiguration().getFirstTimeNeutral())
                 .firstTimeNotWorth(entity.getFollowupConfiguration().getFirstTimeNotWorth())

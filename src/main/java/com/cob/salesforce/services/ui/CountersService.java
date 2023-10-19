@@ -31,13 +31,16 @@ public class CountersService {
     }
 
     public Integer getUserAchievement(String userUUID) {
-        return userTargetRepository.findUserByUUID(userUUID).getAchievement();
-    }
-    public Integer getUserFirstTimeVisitTarget(String userUUID){
-        return userTargetRepository.findUserByUUID(userUUID).getFirstTime();
+        UserTargetEntity userTargetEntity = userTargetRepository.findUserByUUID(userUUID);
+        return userTargetEntity != null ? userTargetEntity.getAchievement() : 0;
     }
 
-    public Integer getUserFirstTimeVisitAchievement(String userUUID){
+    public Integer getUserFirstTimeVisitTarget(String userUUID) {
+        UserTargetEntity userTargetEntity = userTargetRepository.findUserByUUID(userUUID);
+        return userTargetEntity != null ? userTargetEntity.getFirstTime() : 0;
+    }
+
+    public Integer getUserFirstTimeVisitAchievement(String userUUID) {
         return actionTransitionRepository.getFirstTimeUserTargetAchieved(userUUID);
     }
 

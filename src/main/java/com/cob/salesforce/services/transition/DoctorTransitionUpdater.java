@@ -12,11 +12,11 @@ public abstract class DoctorTransitionUpdater extends DoctorTransition {
 
     protected abstract void createAction();
 
-    protected abstract void updateTransition(String doctorUUID,String clinicId);
+    protected abstract void updateTransition(String doctorUUID,String clinicId,Long nextFollowupDate);
 
-    public void execute(String userUUID, String doctorUUID,String clinicId) {
+    public void execute(String userUUID, String doctorUUID,String clinicId , Long nextFollowupDate) {
         createAction();
-        updateTransition(doctorUUID,clinicId);
+        updateTransition(doctorUUID,clinicId,nextFollowupDate);
         joinActionTransition(createdAction, updatedTransition, userUUID, doctorUUID);
     }
 

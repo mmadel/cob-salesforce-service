@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class UserTargetService {
     @Autowired
     ClinicUserRepository clinicUserRepository;
 
@@ -41,6 +41,12 @@ public class UserService {
 
     public Long updateFirstVisitUserTarget(UserTarget userTarget) {
         UserTargetEntity userTargetEntity = userTargetRepository.findUserByUUID(userTarget.getUserUUID());
+        if(userTargetEntity ==null){
+            UserTargetEntity toBeCreated = mapper.map(userTarget,UserTargetEntity.class);
+            toBeCreated.setAchievement(0);
+            toBeCreated.setUser(userRepository.findByUuid(userTarget.getUserUUID()).orElseThrow(()-> new IllegalArgumentException("user not found")));
+            userTargetEntity = userTargetRepository.save(toBeCreated);
+        }
         if (userTarget.getFirstTime() != null)
             userTargetEntity.setFirstTime(userTarget.getFirstTime());
         if (userTarget.getAchievement() != null)

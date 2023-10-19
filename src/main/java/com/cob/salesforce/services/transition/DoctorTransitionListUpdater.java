@@ -8,19 +8,20 @@ import java.util.List;
 
 public abstract class DoctorTransitionListUpdater extends DoctorTransition {
     protected ActionEntity createdAction;
-    protected List<TransitionEntity> updatedTransition = new ArrayList<>();
+    protected List<TransitionEntity> updatedTransitions;
 
     protected abstract void createAction();
 
     protected abstract void updateTransitions();
 
     void joinActionToTransitions(String userUUID) {
-        for (TransitionEntity transitionEntity : updatedTransition) {
+        for (TransitionEntity transitionEntity : updatedTransitions) {
             joinActionTransition(createdAction, transitionEntity, userUUID, transitionEntity.getDoctorUUID());
         }
     }
 
     public void execute(String userUUID) {
+        updatedTransitions = new ArrayList<>();
         updateTransitions();
         joinActionToTransitions(userUUID);
     }
